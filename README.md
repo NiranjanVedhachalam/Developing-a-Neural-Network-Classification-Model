@@ -19,22 +19,21 @@ Include the neural network model diagram.
 Write your own steps
 
 ### STEP 2: 
-
-
+Import the necessary Python libraries and load the dataset into the workspace and Perform data preprocessing by handling missing values, encoding categorical variables, and scaling the features.
 
 ### STEP 3: 
-
-
+Split the dataset into training and testing datasets for model evaluation.
 
 ### STEP 4: 
-
+Define the neural network architecture with input, hidden, and output layers using PyTorch.
 
 
 ### STEP 5: 
-
+Initialize the loss function and optimizer, then train the neural network using the training dataset.
 
 
 ### STEP 6: 
+Evaluate the trained model using test data and compute performance metrics such as accuracy, confusion matrix, and classification report.
 
 
 
@@ -42,42 +41,71 @@ Write your own steps
 
 ## PROGRAM
 
-### Name:
+### Name: NIRANJAN V
 
-### Register Number:
+### Register Number: 212224110042
 
 ```python
+# Define Neural Network(Model1)
 class PeopleClassifier(nn.Module):
     def __init__(self, input_size):
         super(PeopleClassifier, self).__init__()
-        #Include your code here
-
-
+        self.fc1 = nn.Linear(input_size, 32)
+        self.fc2 = nn.Linear(32,16)
+        self.fc3 = nn.Linear(16,8)
+        self.fc4 = nn.Linear(8,4) 
 
     def forward(self, x):
-        #Include your code here
+      x = F.relu(self.fc1(x))
+      x = F.relu(self.fc2(x))
+      x = F.relu(self.fc3(x))
+      x = self.fc4(x)
+      return x
         
-# Initialize the Model, Loss Function, and Optimizer
-
+# Training Loop
 def train_model(model, train_loader, criterion, optimizer, epochs):
-    #Include your code here
+    model.train()
+    for epoch in range(epochs):
+        for inputs, labels in train_loader:
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs,labels)
+            loss.backward()
+            optimizer.step()
+
+
+    if (epoch + 1) % 10 == 0:
+        print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')'
+
+# Initialize model
+model = PeopleClassifier(input_size=X_train.shape[1])
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+train_model(model,train_loader,criterion,optimizer,epochs=100) 
 
 ```
 
 ### Dataset Information
-Include screenshot of the dataset.
+<img width="1347" height="333" alt="image" src="https://github.com/user-attachments/assets/a7b957b3-a854-4196-bc56-d7719823ee4d" />
+
 
 ### OUTPUT
+<img width="1196" height="386" alt="image" src="https://github.com/user-attachments/assets/b6650704-195a-48b4-945c-3e718ae7354b" />
+
 
 ## Confusion Matrix
 
-Include confusion matrix here
+<img width="699" height="586" alt="image" src="https://github.com/user-attachments/assets/1669227b-d354-4ad2-9127-2850afa70afd" />
+
 
 ## Classification Report
-Include classification report here
+<img width="683" height="433" alt="image" src="https://github.com/user-attachments/assets/526fb0b6-7c55-4cb6-af50-c2e01d80c287" />
+
 
 ### New Sample Data Prediction
-Include your sample input and output here
+<img width="1196" height="386" alt="image" src="https://github.com/user-attachments/assets/5054e3dc-7b53-4bc3-b697-d5acbf1c20ef" />
+
 
 ## RESULT
-Include your result here
+Thus, a neural network Classification model was successfully developed and trained using PyTorch.
